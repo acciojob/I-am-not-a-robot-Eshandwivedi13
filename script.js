@@ -61,55 +61,57 @@ h3element.style.fontSize = '0.99rem';
 mainContent.append(h3element);
 
 const imagesArr = document.querySelectorAll('img');
-const buttons = document.querySelectorAll('#btn');
+const resetBtn = document.getElementById('reset');
+const verifyBtn = document.getElementById('verify');
 let clicks = 0;
 let prevId = '';
 for(let image of imagesArr){ 
     image.addEventListener('click', (event)=>{
         curElem = event.target;
         curElemId = curElem.id;
-        if(prevId !== curElemId){
+        if(prevId !== curElemId){ 
             clicks++;
             if(clicks >= 1){//we can either create buttons here or change its display here
-                buttons[0].style.cssText = `display : inline-block`;
+                resetBtn.style.cssText = `display : inline-block`;
                 image.classList.add('selected');    
             }
             if(clicks == 2){
-                buttons[1].style.cssText = `display : inline-block` 
+                verifyBtn.style.cssText = `display : inline-block` 
             }else{
-                buttons[1].style.cssText = `display : none`
+                verifyBtn.style.cssText = `display : none`
             }
-            //clicking on buttons
-            buttons[0].addEventListener('click', reset)
-            buttons[1].addEventListener('click', verify)  
+            //clicking on resetBtn          resetBtn.addEventListener('click', resetFunc)
+            resetBtn.addEventListener('click', resetFunc)  
+            verifyBtn.addEventListener('click', verifyFunc)  
         }
         prevId = curElemId;
     })
 }
 
-function reset(){
+function resetFunc(){
     //resetBtn
     if(clicks == 2){
         const lastChild = mainContent.lastElementChild;
-        // if(lastChild.includes(p))mainContent.removeChild(lastChild);
-         if (lastChild && lastChild.tagName.toLowerCase() === 'p') {
+         if (lastChild && lastChild.tagName.toLowerCase() === 'p') {// if(lastChild.includes(p))mainContent.removeChild(lastChild);
             // Remove the lastChild (which is the last <p> element)
             mainContent.removeChild(lastChild);
         }
+
+        //or remove the id para allElements
     }
     prevId = '';
     clicks = 0;
-    buttons[0].style.cssText = `display : none`;
-    buttons[1].style.cssText = `display : none`;
+    resetBtn.style.cssText = `display : none`;
+    verifyBtn.style.cssText = `display : none`;
     const selectedImages = document.querySelectorAll('.selected')
     selectedImages.forEach((simg)=>{
         simg.classList.remove('selected');
     })
 }
 
-function verify(){
+function verifyFunc(){
    //after clicking on verify button it gets disabled
-    buttons[1].style.cssText = `display : none`;
+   verifyBtn.style.cssText = `display : none`;
     let selectedImages = document.querySelectorAll(".selected")
     const paraTag = document.createElement('p');
     paraTag.id = 'para';
